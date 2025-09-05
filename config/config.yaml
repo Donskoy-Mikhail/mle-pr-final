@@ -1,0 +1,46 @@
+# Общая конфигурация проекта
+seed: 42
+
+paths:
+  models_dir: data
+
+mlflow:
+  enabled: true
+  tracking_uri: ./mlruns
+  experiment: ecomm-recsys
+
+data:
+  use_synthetic_if_missing: true
+  min_user_interactions: 3
+  min_item_interactions: 5
+  downsample_users: 0.0 
+
+split:
+  val_last_n: 1
+  test_last_n: 1
+
+weights:
+  view: 1.0
+  addtocart: 5.0
+  transaction: 10.0
+
+als:
+  factors: 64
+  regularization: 0.01
+  iterations: 20
+  alpha: 40.0
+  use_bm25: true
+  filter_seen: true
+  topk: 20
+
+search:
+  enabled: true
+  params:
+    factors: [64, 128]
+    regularization: [0.01, 0.05]
+    iterations: [15, 20]
+    alpha: [20.0, 40.0]
+    use_bm25: [true, false]
+
+service:
+  topk_default: 20

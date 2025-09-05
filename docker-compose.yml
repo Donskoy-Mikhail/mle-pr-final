@@ -1,0 +1,32 @@
+services:
+  recsys_service:
+    env_file:
+      - .env
+    build:
+      dockerfile: Dockerfile_ml_service
+    ports:
+      - "${APP_VM_PORT}:${APP_DOCKER_PORT}"
+    environment:
+      - MODEL_DIR=/app/models
+    hostname: fastapi_app
+
+  prometheus:
+    image: prom/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - 9090:9090
+    volumes:
+      - "./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml"
+    hostname: prometheus
+
+  grafana:
+    image: grafana/grafana
+    env_file:
+    - .env
+    ports:
+    - ${GRAFANA_PORT}:${GRAFANA_PORT}
+    environment:
+    - GF_SECURITY_ADMIN_USER=${GRAFANA_USER}
+    - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASS}
+ 
